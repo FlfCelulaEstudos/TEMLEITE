@@ -1,9 +1,11 @@
 package br.edu.flf.alergia;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,10 +18,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     private ListView listView;
     private MyAppAdapter myAppAdapter;
     private ArrayList<Post> postArrayList;
+
+    private String TAG = MainActivity.class.getSimpleName();
+    //ArrayList<HashMap<String, String>> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +72,19 @@ public class MainActivity extends AppCompatActivity
 
         listView = (ListView) findViewById(R.id.listView);
         postArrayList=new ArrayList<>();
-        postArrayList.add(new Post("A", "a"));
-        postArrayList.add(new Post("B", "b"));
-        postArrayList.add(new Post("C", "c"));
-        postArrayList.add(new Post("D", "d"));
-        postArrayList.add(new Post("E", "e"));
-        postArrayList.add(new Post("F", "f"));
-        postArrayList.add(new Post("G", "g"));
+//        postArrayList.add(new Post("A", "a"));
+//        postArrayList.add(new Post("B", "b"));
+//        postArrayList.add(new Post("C", "c"));
+//        postArrayList.add(new Post("D", "d"));
+//        postArrayList.add(new Post("E", "e"));
+//        postArrayList.add(new Post("F", "f"));
+//        postArrayList.add(new Post("G", "g"));
+
+        new GetProducts().execute();
+
+//        productList = new ArrayList<>();
 
 
-        myAppAdapter=new MyAppAdapter(postArrayList,MainActivity.this);
-        listView.setAdapter(myAppAdapter);
     }
 
     public class MyAppAdapter extends BaseAdapter {
@@ -253,5 +268,103 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private class GetProducts extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(MainActivity.this,"Carregando...",Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "https://firebasestorage.googleapis.com/v0/b/aplv-c8444.appspot.com/o/lista_produtos.json?alt=media&token=62dcea8b-894f-47da-a35c-fec67db60e89";
+            String jsonStr = sh.makeServiceCall(url);
+
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = null;
+                    try {
+                        jsonObj = new JSONObject(jsonStr);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Getting JSON Array node
+                    JSONArray products = jsonObj.getJSONArray("products");
+
+                    // looping through All Contacts
+                    for (int i = 0; i < products.length(); i++) {
+                        JSONObject c = products.getJSONObject(i);
+                        String marca = c.getString("Marca/Empresa");
+                        String produto = c.getString("Produto");
+                        String atualizacao = c.getString("Ultima Atualização");
+                        String ovo = c.getString("Ovo");
+                        String soja = c.getString("Soja");
+                        String gluten = c.getString("Gluten");
+                        String leite = c.getString("Leite");
+
+//                        // Phone node is JSON Object
+//                        JSONObject phone = c.getJSONObject("phone");
+//                        String mobile = phone.getString("mobile");
+//                        String home = phone.getString("home");
+//                        String office = phone.getString("office");
+
+                        // tmp hash map for single contact
+                       // Post post = new Post(marca, produto, atualizacao, leite, ovo, gluten, soja);
+
+//                        // adding each child node to HashMap key => value
+//                        product.put("marca", marca);
+//                        product.put("produto", produto);
+//                        product.put("atualizacao", atualizacao);
+//                        product.put("ovo", ovo);
+//                        product.put("soja", soja);
+//                        product.put("gluten", gluten);
+//                        product.put("leite", leite);
+
+                        // adding contact to contact list
+                        postArrayList.add(new Post(marca, produto, atualizacao, leite, ovo, gluten, soja));
+                    }
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            myAppAdapter=new MyAppAdapter(postArrayList,MainActivity.this);
+            listView.setAdapter(myAppAdapter);
+
+        }
     }
 }

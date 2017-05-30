@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "33080470389",
+    "firebase_url": "https://aplv-c8444.firebaseio.com",
+    "project_id": "aplv-c8444",
+    "storage_bucket": "aplv-c8444.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33080470389:android:b812ac9d65055688",
+        "android_client_info": {
+          "package_name": "br.edu.flf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33080470389-8nifm39aimq0abedro5a808ppsi3m9fb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3lFrVCkBw3qwV-fZUzwIIOOmNtoAP6cs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

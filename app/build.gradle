@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "br.edu.flf.alergia1"
+        applicationId "br.edu.flf"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
