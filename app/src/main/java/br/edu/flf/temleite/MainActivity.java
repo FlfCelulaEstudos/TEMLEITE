@@ -1,4 +1,4 @@
-package br.edu.flf.alergia;
+package br.edu.flf.temleite;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -29,8 +29,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import br.edu.flf.alergia1.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

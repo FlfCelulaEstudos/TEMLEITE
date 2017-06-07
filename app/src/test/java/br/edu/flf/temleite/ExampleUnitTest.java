@@ -1,4 +1,4 @@
-package br.edu.flf.alergia1;
+package br.edu.flf.temleite;
 
 import org.junit.Test;
 

@@ -1,10 +1,9 @@
-package br.edu.flf.alergia;
+package br.edu.flf.temleite;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Handler;
-import br.edu.flf.alergia1.R;
 
 /**
  * Created by tiagosombra on 06/06/17.

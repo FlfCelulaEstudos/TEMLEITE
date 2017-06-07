@@ -1,4 +1,4 @@
-package br.edu.flf.alergia;
+package br.edu.flf.temleite;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
