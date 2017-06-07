@@ -21,19 +21,19 @@ public class Post {
 
 
 
-    public String getPostTitle() {
+    public String getPostMarca() {
         return postMarca;
     }
 
-    public void setPostTitle(String postTitle) {
+    public void setPostMarca(String postTitle) {
         this.postMarca = postTitle;
     }
 
-    public String getPostSubTitle() {
+    public String getPostProduto() {
         return postProduto;
     }
 
-    public void setPostSubTitle(String postSubTitle) {
+    public void setPostProduto(String postSubTitle) {
         this.postProduto = postSubTitle;
     }
 

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">APLV</string>
+    <string name="app_name">Tem Leite?</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_search">Pesquisa</string>
+    <string name="app_name_main">Tem Leite?</string>
 </resources>

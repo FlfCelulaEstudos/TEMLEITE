@@ -16,9 +16,49 @@
         android:id="@+id/produto"
         android:padding="8dp"
         android:textColor="#787878"
-        android:textSize="14sp"
+        android:textSize="22sp"
         android:text="Produto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/atualizacao"
+        android:padding="8dp"
+        android:textColor="#787878"
+        android:textSize="14sp"
+        android:text="Atualização"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/leite"
+        android:padding="8dp"
+        android:textColor="#787878"
+        android:textSize="14sp"
+        android:text="Leite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/soja"
+        android:padding="8dp"
+        android:textColor="#787878"
+        android:textSize="14sp"
+        android:text="Soja"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/ovo"
+        android:padding="8dp"
+        android:textColor="#787878"
+        android:textSize="14sp"
+        android:text="Ovo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/gluten"
+        android:padding="8dp"
+        android:textColor="#787878"
+        android:textSize="14sp"
+        android:text="Gluten"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

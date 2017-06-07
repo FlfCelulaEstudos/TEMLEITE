@@ -18,9 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,7 +40,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Post> postArrayList;
 
     private String TAG = MainActivity.class.getSimpleName();
-    //ArrayList<HashMap<String, String>> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +47,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,25 +59,16 @@ public class MainActivity extends AppCompatActivity
 
         listView = (ListView) findViewById(R.id.listView);
         postArrayList=new ArrayList<>();
-//        postArrayList.add(new Post("A", "a"));
-//        postArrayList.add(new Post("B", "b"));
-//        postArrayList.add(new Post("C", "c"));
-//        postArrayList.add(new Post("D", "d"));
-//        postArrayList.add(new Post("E", "e"));
-//        postArrayList.add(new Post("F", "f"));
-//        postArrayList.add(new Post("G", "g"));
 
         new GetProducts().execute();
-
-//        productList = new ArrayList<>();
-
 
     }
 
     public class MyAppAdapter extends BaseAdapter {
 
         public class ViewHolder {
-            TextView txtTitle,txtSubTitle;
+            TextView txtMarca,txtProduto;
+            TextView txtAtl, txtLeite, txtOvo, txtGlutem, txtSoja;
 
 
         }
@@ -134,16 +112,28 @@ public class MainActivity extends AppCompatActivity
                 rowView = inflater.inflate(R.layout.item_post, null);
                 // configure view holder
                 viewHolder = new ViewHolder();
-                viewHolder.txtTitle = (TextView) rowView.findViewById(R.id.marca);
-                viewHolder.txtSubTitle = (TextView) rowView.findViewById(R.id.produto);
+                viewHolder.txtMarca = (TextView) rowView.findViewById(R.id.marca);
+                viewHolder.txtProduto = (TextView) rowView.findViewById(R.id.produto);
+                viewHolder.txtAtl = (TextView) rowView.findViewById(R.id.atualizacao);
+                viewHolder.txtLeite = (TextView) rowView.findViewById(R.id.leite);
+                viewHolder.txtOvo = (TextView) rowView.findViewById(R.id.ovo);
+                viewHolder.txtGlutem = (TextView) rowView.findViewById(R.id.gluten);
+                viewHolder.txtSoja = (TextView) rowView.findViewById(R.id.soja);
+
                 rowView.setTag(viewHolder);
 
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            viewHolder.txtTitle.setText(parkingList.get(position).getPostTitle() + "");
-            viewHolder.txtSubTitle.setText(parkingList.get(position).getPostSubTitle() + "");
+            viewHolder.txtMarca.setText(parkingList.get(position).getPostMarca() + "");
+            viewHolder.txtProduto.setText(parkingList.get(position).getPostProduto() + "");
+            viewHolder.txtAtl.setText("Atualização: " + verifyDictionaryProduct(parkingList.get(position).getPostAtualizacao()) + "");
+            viewHolder.txtLeite.setText("Leite: " + verifyDictionaryProduct(parkingList.get(position).getPostLeite()) + "");
+            viewHolder.txtOvo.setText("Ovo: " + verifyDictionaryProduct(parkingList.get(position).getPostOvo()) + "");
+            viewHolder.txtGlutem.setText("Gluten: " + verifyDictionaryProduct(parkingList.get(position).getPostGluten()) + "");
+            viewHolder.txtSoja.setText("Soja: " + verifyDictionaryProduct(parkingList.get(position).getPostSoja()) + "");
+
             return rowView;
 
 
@@ -159,16 +149,38 @@ public class MainActivity extends AppCompatActivity
 
             } else {
                 for (Post postDetail : arraylist) {
-                    if (charText.length() != 0 && postDetail.getPostTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    if (charText.length() != 0 && postDetail.getPostMarca().toLowerCase(Locale.getDefault()).contains(charText)) {
                         parkingList.add(postDetail);
                     }
 
-                    else if (charText.length() != 0 && postDetail.getPostSubTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    else if (charText.length() != 0 && postDetail.getPostProduto().toLowerCase(Locale.getDefault()).contains(charText)) {
                         parkingList.add(postDetail);
                     }
                 }
             }
             notifyDataSetChanged();
+        }
+
+        String verifyDictionaryProduct (String value){
+
+            String traduction;
+
+            if (value.equals(new String("0"))){
+                traduction = "Não contém o alérgeno";
+                return traduction;
+            }else if (value.equals(new String("1"))){
+                traduction = "Contém o alérgeno";
+                return traduction;
+            }else if (value.equals(new String("2"))){
+                traduction = "Maquinário higienizado";
+                return traduction;
+            }else if (value.equals(new String("3"))){
+                traduction =  "Derivado de soja";
+                return traduction;
+            }else {
+                traduction = " --- ";
+                return traduction;
+            }
         }
     }
 
@@ -309,25 +321,7 @@ public class MainActivity extends AppCompatActivity
                         String gluten = c.getString("Gluten");
                         String leite = c.getString("Leite");
 
-//                        // Phone node is JSON Object
-//                        JSONObject phone = c.getJSONObject("phone");
-//                        String mobile = phone.getString("mobile");
-//                        String home = phone.getString("home");
-//                        String office = phone.getString("office");
-
-                        // tmp hash map for single contact
-                       // Post post = new Post(marca, produto, atualizacao, leite, ovo, gluten, soja);
-
-//                        // adding each child node to HashMap key => value
-//                        product.put("marca", marca);
-//                        product.put("produto", produto);
-//                        product.put("atualizacao", atualizacao);
-//                        product.put("ovo", ovo);
-//                        product.put("soja", soja);
-//                        product.put("gluten", gluten);
-//                        product.put("leite", leite);
-
-                        // adding contact to contact list
+                        // adding product to list
                         postArrayList.add(new Post(marca, produto, atualizacao, leite, ovo, gluten, soja));
                     }
                 } catch (final JSONException e) {
